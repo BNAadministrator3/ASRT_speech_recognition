@@ -82,13 +82,13 @@ class Speech_Model():
         tf.summary.scalar('y_predit', tf.reduce_mean(self.y_predit))
 
 
-        y_pred = tf.log(self.y_predit + 1e-7)
+        y_pred = tf.log(tf.transpose(self.y_predit,[1,0,2]) + 1e-7)
 
-        self.loss = tf.reduce_mean(tf.nn.ctc_loss(self.label_sparse,y_pred,self.input_length,time_major=False))
+        self.loss = tf.reduce_mean(tf.nn.ctc_loss(self.label_sparse,y_pred,self.input_length))
         tf.summary.scalar('loss', self.loss)
         self.optimize = tf.train.AdadeltaOptimizer(learning_rate = 0.01, rho = 0.95, epsilon = 1e-06).minimize(self.loss)
 
-        decoded, _ = tf.nn.ctc_beam_search_decoder(self.y_predit, self.input_length, merge_repeated=False)
+        decoded, _ = tf.nn.ctc_beam_search_decoder(tf.transpose(self.y_predit,[1,0,2]), self.input_length, merge_repeated=False)
         # self.predict = tf.sparse_to_dense(decoded[0].indices, decoded[0].dense_shape, decoded[0].values)
         self.accury = tf.edit_distance(tf.cast(decoded[0], tf.int32), self.label_sparse)
 
@@ -151,6 +151,7 @@ class Speech_Model():
                         break
                     train_epoch +=1
                 saver.save(sess, os.path.join(os.getcwd(), 'speech_model_file', 'speech.module'), global_step=i)
+                print('测试数据')
                 for input,_ in yielddatas:
                     feed = {self.input_data: input[0],self.label_data: input[1],self.input_length:input[2],
                             self.is_train:False}

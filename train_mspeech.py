@@ -38,7 +38,7 @@ if(not os.path.exists(modelpath)): # 判断保存模型的目录是否存在
 # 	modelpath = modelpath + '/'
 # else:
 print('*[Message] Unknown System\n')
-datapath = 'datalist'
+datapath = 'dataset'
 modelpath = modelpath + '/'
 
 ms = Speech_Model()
