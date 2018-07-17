@@ -1,0 +1,2 @@
+# ASRT_speech_recognition
+基于tensorflow的CTC进行语音识别
