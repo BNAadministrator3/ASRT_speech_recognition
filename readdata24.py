@@ -218,7 +218,53 @@ class DataSpeech():
 			#print(X)
 			yield [X, y, input_length, label_length ], labels
 		pass
-		
+
+	def get_data(self, batch_size=20, audio_length = 1600,ran_num = 1000):
+		labels = []
+		for i in range(0, batch_size):
+			# input_length.append([1500])
+			labels.append([0.0])
+
+		labels = np.array(labels, dtype=np.float)
+
+		# print(input_length,len(input_length))
+
+		X = np.zeros((batch_size, audio_length, 200, 1), dtype=np.float)
+		# y = np.zeros((batch_size, 64, self.SymbolNum), dtype=np.int16)
+		y = np.zeros((batch_size, 64), dtype=np.int16)
+
+		# generator = ImageCaptcha(width=width, height=height)
+		input_length = []
+		label_length = []
+
+		# ran_num = random.randint(0, self.DataNum - 1)  # 获取一个随机数
+
+		for i in range(batch_size):
+			data_input, data_labels = self.GetData((ran_num + i) % self.DataNum)  # 从随机数开始连续向后取一定数量数据
+
+			input_length.append(data_input.shape[0] // 8 + data_input.shape[0] % 8)
+			# print(data_input, data_labels)
+			# print('data_input长度:',len(data_input))
+
+			X[i, 0:len(data_input)] = data_input
+			# print('data_labels长度:',len(data_labels))
+			# print(data_labels)
+			y[i, 0:len(data_labels)] = data_labels
+			# print(i,y[i].shape)
+			# y[i] = y[i].T
+			# print(i,y[i].shape)
+			label_length.append(len(data_labels))
+
+		label_length = np.array(label_length)
+		input_length = np.array(input_length)
+		# input_length = np.array(input_length)
+		# print('input_length:\n',input_length)
+		# X=X.reshape(batch_size, audio_length, 200, 1)
+		# print(X)
+		return [X, y, input_length, label_length], labels
+
+
+
 	def GetSymbolList(self):
 		'''
 		加载拼音符号列表，用于标记符号

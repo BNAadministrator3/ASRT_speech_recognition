@@ -44,7 +44,7 @@ modelpath = modelpath + '/'
 ms = Speech_Model()
 
 #ms.LoadModel(modelpath + 'speech_model24_e_0_step_327500.model')
-ms.TrainModel(datapath, epoch = 50, batch_size = 32, save_step = 500)
+ms.TrainModel(datapath, epoch = 100, batch_size = 16, save_step = 1000)
 
 # from tqdm import tqdm,trange
 # from time import sleep
