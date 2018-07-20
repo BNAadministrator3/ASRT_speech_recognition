@@ -48,48 +48,48 @@ class Speech_Model():
         conv2d_1 = tf.layers.conv2d(self.input_data,32,(3,3),use_bias=True, padding='same', kernel_initializer=tf.keras.initializers.he_normal(),name='conv2d_1')
         bn_1 = self.batch_norm(conv2d_1,self.is_train, scope='bn_1')
         relu_1 = tf.keras.activations.relu(bn_1)
-        tf.summary.scalar( 'conv2d_1', tf.reduce_mean(relu_1))
+        # tf.summary.scalar( 'conv2d_1', tf.reduce_mean(relu_1))
         droput_1 = tf.layers.dropout(relu_1,rate=0.1,training=self.is_train)#随机丢失层
         conv2d_2 = tf.layers.conv2d(droput_1, 32, (3, 3), use_bias=True, padding='same',kernel_initializer=tf.keras.initializers.he_normal(),name='conv2d_2')
         bn_2 = self.batch_norm(conv2d_2, self.is_train, scope='bn_2')
         relu_2 = tf.keras.activations.relu(bn_2)
-        tf.summary.scalar('conv2d_2', tf.reduce_mean(relu_2))
+        # tf.summary.scalar('conv2d_2', tf.reduce_mean(relu_2))
         max_pool_2 = tf.layers.max_pooling2d(relu_2,pool_size=2, strides=2, padding="valid",name='max_pool_2')
 
         droput_3 = tf.layers.dropout(max_pool_2, rate=0.1,training=self.is_train)  # 随机丢失层
         conv2d_3 = tf.layers.conv2d(droput_3,64, (3,3), use_bias=True,  padding='same', kernel_initializer=tf.keras.initializers.he_normal(), name='conv2d_3')  # 卷积层
         bn_3 = self.batch_norm(conv2d_3, self.is_train, scope='bn_3')
         relu_3 = tf.keras.activations.relu(bn_3)
-        tf.summary.scalar('conv2d_3', tf.reduce_mean(relu_3))
+        # tf.summary.scalar('conv2d_3', tf.reduce_mean(relu_3))
         droput_3 = tf.layers.dropout(relu_3, rate=0.2,training=self.is_train)  # 随机丢失层
         conv2d_4 = tf.layers.conv2d(droput_3, 64, (3,3), use_bias=True,  padding='same', kernel_initializer=tf.keras.initializers.he_normal(),name= 'conv2d_4')  # 卷积层
         bn_4 = self.batch_norm(conv2d_4, self.is_train, scope='bn_4')
         relu_4 = tf.keras.activations.relu(bn_4)
-        tf.summary.scalar('conv2d_4', tf.reduce_mean(relu_4))
+        # tf.summary.scalar('conv2d_4', tf.reduce_mean(relu_4))
         max_pool_4 = tf.layers.max_pooling2d(relu_4, pool_size=2, strides=2, padding="valid", name='max_pool_4')
 
         droput_5 = tf.layers.dropout(max_pool_4, rate=0.2,training=self.is_train)  # 随机丢失层
         conv2d_5 = tf.layers.conv2d(droput_5,128, (3,3), use_bias=True, padding='same', kernel_initializer=tf.keras.initializers.he_normal(),name= 'conv2d_5')  # 卷积层
         bn_5 = self.batch_norm(conv2d_5, self.is_train, scope='bn_5')
         relu_5 = tf.keras.activations.relu(bn_5)
-        tf.summary.scalar('conv2d_5', tf.reduce_mean(relu_5))
+        # tf.summary.scalar('conv2d_5', tf.reduce_mean(relu_5))
         droput_6 = tf.layers.dropout(relu_5,  rate=0.3,training=self.is_train)  # 随机丢失层
         conv2d_6 = tf.layers.conv2d(droput_6, 128, (3,3), use_bias=True,  padding='same', kernel_initializer=tf.keras.initializers.he_normal(),name= 'conv2d_6')  # 卷积层
         bn_6 = self.batch_norm(conv2d_6, self.is_train, scope='bn_6')
         relu_6 = tf.keras.activations.relu(bn_6)
-        tf.summary.scalar('conv2d_6', tf.reduce_mean(relu_6))
+        # tf.summary.scalar('conv2d_6', tf.reduce_mean(relu_6))
         max_pool_6 = tf.layers.max_pooling2d(relu_6, pool_size=2, strides=2, padding="valid", name='max_pool_6')
 
         droput_7 = tf.layers.dropout(max_pool_6, rate=0.3, training=self.is_train)  # 随机丢失层
         conv2d_7 = tf.layers.conv2d(droput_7, 128, (3, 3), use_bias=True,padding='same', kernel_initializer=tf.keras.initializers.he_normal(),name='conv2d_7')  # 卷积层
         bn_7 = self.batch_norm(conv2d_7, self.is_train, scope='bn_7')
         relu_7 = tf.keras.activations.relu(bn_7)
-        tf.summary.scalar('conv2d_7', tf.reduce_mean(relu_7))
+        # tf.summary.scalar('conv2d_7', tf.reduce_mean(relu_7))
         droput_8 = tf.layers.dropout(relu_7, rate=0.4, training=self.is_train)  # 随机丢失层
         conv2d_8 = tf.layers.conv2d(droput_8, 128, (3, 3), use_bias=True, activation=tf.keras.activations.relu,padding='same', kernel_initializer=tf.keras.initializers.he_normal(),name='conv2d_8')  # 卷积层
         bn_8 = self.batch_norm(conv2d_8, self.is_train, scope='bn_8')
         relu_8 = tf.keras.activations.relu(bn_8)
-        tf.summary.scalar('conv2d_8', tf.reduce_mean(relu_8))
+        # tf.summary.scalar('conv2d_8', tf.reduce_mean(relu_8))
         max_pool_8 = tf.layers.max_pooling2d(relu_8, pool_size=1, strides=1, padding="valid", name='max_pool_6')
 
         max_pool_shape = max_pool_8.get_shape().as_list()
@@ -107,15 +107,15 @@ class Speech_Model():
 
         droput_9 = tf.layers.dropout(fbH1rs, rate=0.4,training=self.is_train)  # 随机丢失层
         all_connect_layer_1 = tf.layers.dense(droput_9, 128, activation=tf.keras.activations.relu, use_bias=True,kernel_initializer=tf.keras.initializers.he_normal(), name='all_connect_layer_1')
-        tf.summary.scalar('all_connect_layer_1', tf.reduce_mean(all_connect_layer_1))
+        # tf.summary.scalar('all_connect_layer_1', tf.reduce_mean(all_connect_layer_1))
 
         droput_10 = tf.layers.dropout(all_connect_layer_1, rate =0.5,training=self.is_train)  # 随机丢失层
         all_connect_layer_2 = tf.layers.dense(droput_10,self.MS_OUTPUT_SIZE, use_bias=True, kernel_initializer=tf.keras.initializers.he_normal(),name='all_connect_layer_2')
-        tf.summary.scalar('all_connect_layer_2', tf.reduce_mean(all_connect_layer_2))
+        # tf.summary.scalar('all_connect_layer_2', tf.reduce_mean(all_connect_layer_2))
         # output = tf.reshape(all_connect_layer_2,[-1,max_time,self.MS_OUTPUT_SIZE])
 
         self.y_predit = tf.keras.activations.softmax(all_connect_layer_2)
-        tf.summary.scalar('y_predit', tf.reduce_mean(self.y_predit))
+        # tf.summary.scalar('y_predit', tf.reduce_mean(self.y_predit))
 
         sparse_labels = tf.to_int32(self.ctc_label_dense_to_sparse(self.label_data, self.label_length))
         y_pred = tf.log(tf.transpose(self.y_predit,[1,0,2]) + 1e-7)
@@ -123,10 +123,10 @@ class Speech_Model():
         self.loss = tf.reduce_mean(tf.nn.ctc_loss(sparse_labels,y_pred,self.input_length))
         tf.summary.scalar('loss', self.loss)
 
-        global_step = tf.Variable(0, trainable=False)
-        initial_learning_rate = tf.train.exponential_decay(0.01, global_step, 100, 0.9, staircase=True)
-        tf.summary.scalar('learning_rate', initial_learning_rate)
-        self.optimize = tf.train.AdadeltaOptimizer(learning_rate = initial_learning_rate, rho = 0.95, epsilon = 1e-06).minimize(self.loss)
+        # global_step = tf.Variable(0, trainable=False)
+        # initial_learning_rate = tf.train.exponential_decay(0.01, global_step, 100, 0.9, staircase=True)
+        # tf.summary.scalar('learning_rate', initial_learning_rate)
+        self.optimize = tf.train.AdadeltaOptimizer(learning_rate = 0.1, rho = 0.95, epsilon = 1e-06).minimize(self.loss)
 
         decoded, _ = tf.nn.ctc_beam_search_decoder(tf.transpose(self.y_predit,[1,0,2]), self.input_length, merge_repeated=True)
         self.predict = tf.sparse_to_dense(decoded[0].indices, decoded[0].dense_shape, decoded[0].values)
@@ -299,7 +299,7 @@ class Speech_Model():
 
 
 
-    def TrainModel(self, datapath, epoch=2, save_step=1000, batch_size=32, filename='model_speech/speech_model24'):
+    def TrainModel(self, datapath, epoch=2, save_step=1000, batch_size=32):
         '''
         训练模型
         参数：
@@ -311,14 +311,21 @@ class Speech_Model():
         data = DataSpeech(datapath, 'train')
 
         # num_data = data.GetDataNum()  # 获取数据的数量
+        txt_loss = open(
+            os.path.join(os.getcwd(), 'speech_log_file', 'Test_Report_loss.txt'),
+            mode='a', encoding='UTF-8')
+
+        txt_obj = open(
+            os.path.join(os.getcwd(), 'speech_log_file', 'Test_Report_accuracy.txt'),
+            mode='a', encoding='UTF-8')
 
         saver = tf.train.Saver()
         with tf.Session() as sess:
             # sess.run(tf.global_variables_initializer())
-            saver.restore(sess,os.path.join(os.getcwd(), 'speech_model_file','speech.module-24'))
+            saver.restore(sess,os.path.join(os.getcwd(), 'speech_model_file','speech.module-3'))
             summary_merge = tf.summary.merge_all()
             train_writter = tf.summary.FileWriter('summary_file',sess.graph)
-            for i in range(epoch):
+            for i in range(4,epoch):
                 yielddatas = data.data_genetator(batch_size, self.MAX_TIME)
                 pbar = tqdm(yielddatas)
                 train_epoch = 0
@@ -328,29 +335,44 @@ class Speech_Model():
                             self.is_train:True}
                     _,loss,train_summary = sess.run([self.optimize,self.loss,summary_merge],feed_dict=feed)
                     train_writter.add_summary(train_summary,train_epoch+i*train_epoch_size)
-                    pbar.set_description('epoch:%d/%d,train_epoch: %d/%d ,loss: %s'% (epoch,i,train_epoch_size,train_epoch,loss))
+                    pr = 'epoch:%d/%d,train_epoch: %d/%d ,loss: %s'% (epoch,i,train_epoch_size,train_epoch,loss)
+                    pbar.set_description(pr)
+                    txt = pr + '\n'
+                    txt_loss.write(txt)
                     if train_epoch == train_epoch_size:
                         break
                     train_epoch +=1
+                    if train_epoch%3000==0:
+                        self.TestMode(data, sess, i,txt_obj)
                 saver.save(sess, os.path.join(os.getcwd(), 'speech_model_file', 'speech.module'), global_step=i)
+            txt_loss.close()
 
-                self.TestMode(data,sess)
 
-
-    def TestMode(self,data,sess):
+    def TestMode(self,data,sess,epoch,txt_obj):
+        import time
         # 测试数据集
+        nowtime = time.strftime('%Y%m%d_%H%M%S', time.localtime(time.time()))
+
+
         edit_sum = 0
         for i in range(0,5):
             test_data, _ = data.get_data(20, self.MAX_TIME, ran_num=1000+i*20)
             feed = {self.input_data: test_data[0], self.label_data: test_data[1], self.input_length: test_data[2],
                     self.label_length: test_data[3],
                     self.is_train: False}
-            accury = sess.run(self.accury, feed_dict=feed)
+            accury,pre = sess.run([self.accury,self.predict], feed_dict=feed)
 
             for e in accury:
                 if e > 1:
                     e = 1
                 edit_sum += e
+            txt = ''
+            txt += str(i) + '\n'
+            txt += 'True:\t' + str(test_data[1]) + '\n'
+            txt += 'Pred:\t' + str(pre) + '\n'
+            txt += '\n'
+            txt_obj.write(txt)
+            # txt_obj.write(txt)
         # p_str = ''
         # for p in pre[0]:
         #     p_str += data.list_symbol[p]
@@ -362,3 +384,7 @@ class Speech_Model():
         # print('测试第一条预测数据为：'+p_str)
         error_rate = edit_sum / 100 * 100
         print('测试数据错误率为： %s ' % (error_rate) + '%')
+        txt = ''
+        txt += '测试数据错误率为： %s ' % (error_rate) + '%'
+        txt += '\n'
+        txt_obj.write(txt)

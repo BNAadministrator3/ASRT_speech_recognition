@@ -12,7 +12,10 @@ import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 
 
-from Speech_Model import Speech_Model
+from Speech_Model_Attention import Speech_Model
+from sklearn.model_selection import GridSearchCV
+from keras.wrappers.scikit_learn import KerasClassifier
+
 
 # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # #进行配置，使用70%的GPU
@@ -41,10 +44,12 @@ print('*[Message] Unknown System\n')
 datapath = 'dataset'
 modelpath = modelpath + '/'
 
-ms = Speech_Model()
+
+batch_size=8
+ms = Speech_Model(batch_size)
 
 #ms.LoadModel(modelpath + 'speech_model24_e_0_step_327500.model')
-ms.TrainModel(datapath, epoch = 100, batch_size = 16, save_step = 110000/16)
+ms.TrainModel(datapath, epoch = 100, batch_size = batch_size, save_step = 110000/16)
 
 # from tqdm import tqdm,trange
 # from time import sleep
