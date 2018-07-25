@@ -118,8 +118,8 @@ class Speech_Model():
         attn_mechanism = tf.contrib.seq2seq.BahdanauAttention(2*self.lstm_num_hidden,fbH1)
         attn_cell = tf.contrib.seq2seq.AttentionWrapper(attn_lstm_cell,attn_mechanism,attention_layer_size=256)
         # attn_cell = tf.contrib.rnn.DeviceWrapper(attn_cell, "/device:GPU:1")
-        top_cell = tf.nn.rnn_cell.BasicLSTMCell(2*self.lstm_num_hidden)
-        multi_cell = tf.nn.rnn_cell.MultiRNNCell([attn_cell,top_cell])
+        # top_cell = tf.nn.rnn_cell.BasicLSTMCell(2*self.lstm_num_hidden)
+        # multi_cell = tf.nn.rnn_cell.MultiRNNCell([attn_cell,top_cell])
 
         if is_train:
             # Generate embedding of target labels
@@ -134,8 +134,8 @@ class Speech_Model():
                 labels_embedded = tf.nn.dropout(labels_embedded,
                                                 keep_prob=self.keep_prob)
             helper = tf.contrib.seq2seq.TrainingHelper(
-                inputs=labels_embedded[:, :-1, :],  # exclude <EOS>
-                sequence_length=self.label_length - 1,  # exclude <EOS>
+                inputs=labels_embedded[:, :-1, :],
+                sequence_length=self.label_length - 1,
                 time_major=False)  # TODO: self.time_major??
         else:
             with tf.variable_scope("output_embedding", reuse=True):
@@ -153,9 +153,9 @@ class Speech_Model():
                 end_token=self.MS_OUTPUT_SIZE+1)
 
         decoder = tf.contrib.seq2seq.BasicDecoder(
-            cell=multi_cell,
+            cell=attn_cell,
             helper=helper,
-            initial_state=multi_cell.zero_state(self.batch_size,tf.float32))
+            initial_state=attn_cell.zero_state(self.batch_size,tf.float32))
         outputs = tf.contrib.seq2seq.dynamic_decode(
             decoder=decoder,
             output_time_major=False,

@@ -322,10 +322,10 @@ class Speech_Model():
         saver = tf.train.Saver()
         with tf.Session() as sess:
             # sess.run(tf.global_variables_initializer())
-            saver.restore(sess,os.path.join(os.getcwd(), 'speech_model_file','speech.module-3'))
+            saver.restore(sess,os.path.join(os.getcwd(), 'speech_model_file','speech.module-33'))
             summary_merge = tf.summary.merge_all()
             train_writter = tf.summary.FileWriter('summary_file',sess.graph)
-            for i in range(4,epoch):
+            for i in range(34,epoch):
                 yielddatas = data.data_genetator(batch_size, self.MAX_TIME)
                 pbar = tqdm(yielddatas)
                 train_epoch = 0
