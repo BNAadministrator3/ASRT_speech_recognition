@@ -126,7 +126,7 @@ class Speech_Model():
         # global_step = tf.Variable(0, trainable=False)
         # initial_learning_rate = tf.train.exponential_decay(0.01, global_step, 100, 0.9, staircase=True)
         # tf.summary.scalar('learning_rate', initial_learning_rate)
-        self.optimize = tf.train.AdadeltaOptimizer(learning_rate = 0.1, rho = 0.95, epsilon = 1e-06).minimize(self.loss)
+        self.optimize = tf.train.AdadeltaOptimizer(learning_rate = 0.0001, rho = 0.95, epsilon = 1e-06).minimize(self.loss)
 
         decoded, _ = tf.nn.ctc_beam_search_decoder(tf.transpose(self.y_predit,[1,0,2]), self.input_length, merge_repeated=True)
         self.predict = tf.sparse_to_dense(decoded[0].indices, decoded[0].dense_shape, decoded[0].values)
@@ -322,10 +322,10 @@ class Speech_Model():
         saver = tf.train.Saver()
         with tf.Session() as sess:
             # sess.run(tf.global_variables_initializer())
-            saver.restore(sess,os.path.join(os.getcwd(), 'speech_model_file','speech.module-33'))
+            saver.restore(sess,os.path.join(os.getcwd(), 'speech_model_file','speech.module-50'))
             summary_merge = tf.summary.merge_all()
             train_writter = tf.summary.FileWriter('summary_file',sess.graph)
-            for i in range(34,epoch):
+            for i in range(51,epoch):
                 yielddatas = data.data_genetator(batch_size, self.MAX_TIME)
                 pbar = tqdm(yielddatas)
                 train_epoch = 0
@@ -385,6 +385,6 @@ class Speech_Model():
         error_rate = edit_sum / 100 * 100
         print('测试数据错误率为： %s ' % (error_rate) + '%')
         txt = ''
-        txt += '测试数据错误率为： %s ' % (error_rate) + '%'
+        txt += 'epoch:%s 测试数据错误率为： %s ' % (epoch,error_rate) + '%'
         txt += '\n'
         txt_obj.write(txt)
